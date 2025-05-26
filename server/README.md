@@ -109,7 +109,6 @@ app.post("/changePassword", authUser, changePassword);
 
 ## FREELANER : 
 
-```
 ### app.post("/post", createPost);
 
 ```
@@ -293,5 +292,3 @@ app.post("/changePassword", authUser, changePassword);
 
 app.delete("/post/:id", deletePost);
 
-
-```
