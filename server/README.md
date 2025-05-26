@@ -1,4 +1,6 @@
 
+# Base url : `https://clash-of-code.onrender.com/api/v1`
+
 # ROUTES : 
 
 ## LOGIN : 
