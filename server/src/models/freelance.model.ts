@@ -56,7 +56,7 @@ const freelanceSchema = new mongoose.Schema<IFreelance>(
 		},
 		keywords: {
 			type: [String],
-			default: [],
+			required: [true, "Keyword are required"],
 		},
 
 		images: {
@@ -67,6 +67,6 @@ const freelanceSchema = new mongoose.Schema<IFreelance>(
 	{ timestamps: true }
 );
 
-const freelanceModel = mongoose.model<IFreelance>("freelance", freelanceSchema);
+const FreelanceModel = mongoose.model<IFreelance>("freelance", freelanceSchema);
 
-export default freelanceModel;
+export default FreelanceModel;
