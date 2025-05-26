@@ -7,12 +7,12 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "nodemon dist/index.js",
-		"watch": "tsc --watch"
+		"watch": "tsc --watch",
+		"build" : "tsc"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"packageManager": "pnpm@10.8.1",
 	"dependencies": {
 		"bcryptjs": "^3.0.2",
 		"cookie-parser": "^1.4.7",
