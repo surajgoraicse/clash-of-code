@@ -15,3 +15,4 @@ app.post("/logout", authUser, logout);
 app.post("/changePassword", authUser, changePassword);
 
 export default app;
+

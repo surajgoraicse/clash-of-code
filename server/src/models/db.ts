@@ -13,5 +13,4 @@ const connectDb = (uri: string) => {
 			process.exit(1);
 		});
 };
-
 export default connectDb;
