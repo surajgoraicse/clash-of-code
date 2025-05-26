@@ -27,7 +27,7 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/admin", adminRouter);
 
 app.get("/", (req, res) => {
-	res.send("this is some data");
+	res.send("this is the landing page");
 });
 
 app.use(handleError);
