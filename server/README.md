@@ -80,6 +80,25 @@
 ### app.post("/logout", authUser, logout);
 
 ```
+// success 
+
+{
+    "statusCode": 200,
+    "success": true,
+    "message": "Logout successfull",
+    "data": []
+}
+
+// failure
+
+{
+    "statusCode": 404,
+    "name": "Error",
+    "message": "Access Token not found , Please login",
+    "data": [],
+    "success": false,
+    "errors": []
+}
 
 ```
 
