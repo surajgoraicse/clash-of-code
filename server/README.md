@@ -1,13 +1,23 @@
 
 # Base url : `https://clash-of-code.onrender.com/api/v1`
 
-# ROUTES : 
+# ROUTES
 
-## LOGIN : 
+## LOGIN
 
-### app.post("/register", registerUser);
+### app.post("/register", registerUser)
 
-```
+```js
+
+// json data : 
+
+{
+    "username" : "surajhdfkjd",
+    "password" : "232323dfsdDS$f0",
+    "email" : "rohit1@gmail.com",
+    "fullName" : "rohit sharma"
+}
+
 // success
 {
     "statusCode": 201,
@@ -43,9 +53,20 @@
 }
 ```
 
-### app.post("/login", login);
+### app.post("/login", login)
 
-```
+```js
+
+// json data
+
+{
+    "username" : "rohit",
+    "password" : "232323dfsdDS$f0",
+    "email" : "rohit@gmail.com",
+}
+
+
+
 // success 
 
 {
@@ -78,10 +99,14 @@
 }
 ```
 
+### app.post("/logout", authUser, logout)
 
-### app.post("/logout", authUser, logout);
+```js
+// json data 
 
-```
+no data need to pass, backend will handle logout based on the cookie passed by the browser.
+
+
 // success 
 
 {
@@ -106,14 +131,28 @@
 
 app.post("/changePassword", authUser, changePassword);
 
+## FREELANER
+
+### app.post("/post", createPost)
+
+```js
+// data
+
+{
+  "title": "this is the title of the post",
+  "description": "Need a frontend developer to create a sleek, responsive portfolio using React and TailwindCSS.",
+  "about": "The project involves designing and implementing a modern portfolio website for a creative agency. You'll work closely with our designer, and all assets (images, copy, and wireframes) will be provided.",
+  "type": "Frontend",
+  "deadline": "2025-07-15T00:00:00.000Z",
+  "keywords": ["React", "TailwindCSS", "Responsive Design", "Frontend"],
+  "images": [
+    "https://example.com/design-preview1.png",
+    "https://example.com/design-preview2.png"
+  ]
+}
 
 
 
-## FREELANER : 
-
-### app.post("/post", createPost);
-
-```
 // success
 {
     "statusCode": 201,
@@ -161,9 +200,12 @@ app.post("/changePassword", authUser, changePassword);
 
 ```
 
-### app.get("/post/:id", getOnePost);
+### app.get("/post/:id", getOnePost)
 
-```
+```js
+
+pass the id : {{baseUrl}}/post/:id
+
 // success : 
 
 {
@@ -205,9 +247,9 @@ app.post("/changePassword", authUser, changePassword);
 
 ```
 
-### app.get("/all-post", allPost);
+### app.get("/all-post", allPost)
 
-```
+```js
 // failure 
 
 {
@@ -292,5 +334,46 @@ app.post("/changePassword", authUser, changePassword);
 }
 ```
 
-app.delete("/post/:id", deletePost);
+app.delete("/post/:id", deletePost)
 
+```js
+// pass the id : 
+
+
+// success
+
+{
+    "success": true,
+    "message": "Freelance post deleted successfully",
+    "data": {
+        "_id": "683468d3d9254abe5c905a9e",
+        "title": "Build a Responsive Portfolio Website",
+        "description": "Need a frontend developer to create a sleek, responsive portfolio using React and TailwindCSS.",
+        "about": "The project involves designing and implementing a modern portfolio website for a creative agency. You'll work closely with our designer, and all assets (images, copy, and wireframes) will be provided.",
+        "type": "Frontend",
+        "deadline": "2025-07-15T00:00:00.000Z",
+        "registeredNumber": 0,
+        "keywords": [
+            "React",
+            "TailwindCSS",
+            "Responsive Design",
+            "Frontend"
+        ],
+        "images": [
+            "https://example.com/design-preview1.png",
+            "https://example.com/design-preview2.png"
+        ],
+        "createdAt": "2025-05-26T13:12:51.797Z",
+        "updatedAt": "2025-05-26T13:12:51.797Z",
+        "__v": 0
+    }
+}
+
+// failure in case post does not exists :  
+
+{
+    "success": false,
+    "message": "Freelance post not found"
+}
+
+```
