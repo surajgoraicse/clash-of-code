@@ -1,379 +1,322 @@
+# ⚔️ Clash of Code API
 
-# Base url : `https://clash-of-code.onrender.com/api/v1`
+A RESTful API for a freelancing platform focused on coding gigs. Built for scalability and structured for ease of integration.
 
-# ROUTES
+---
 
-## LOGIN
-
-### app.post("/register", registerUser)
+## 🌐 Base URL
 
 ```js
+https://clash-of-code.onrender.com/api/v1
+```
 
-// json data : 
+## 📌 Status Codes Cheat Sheet
 
+| Code | Meaning               |
+|------|------------------------|
+| 200  | OK                     |
+| 201  | Created                |
+| 400  | Bad Request / Validation Error |
+| 401  | Unauthorized (Login Failed)   |
+| 404  | Not Found              |
+
+---
+
+## 📚 Use Cases
+
+| Route            | Use Case                                                 |
+|------------------|----------------------------------------------------------|
+| `POST /register` | New user registration                                    |
+| `POST /login`    | User login with session cookie                           |
+| `POST /logout`   | Destroy session cookie                                   |
+| `POST /post`     | Create freelance gigs                                    |
+| `GET /post/:id`  | Fetch a single freelance gig                             |
+| `GET /all-post`  | Fetch all available freelance gigs                       |
+| `DELETE /post/:id` | Remove a gig from the list (admin or post owner only) |
+
+---
+
+## 🔐 Auth Routes
+
+### ✅ Register User
+
+`POST /register`
+
+**Request Body:**
+
+```json
 {
-    "username" : "surajhdfkjd",
-    "password" : "232323dfsdDS$f0",
-    "email" : "rohit1@gmail.com",
-    "fullName" : "rohit sharma"
-}
-
-// success
-{
-    "statusCode": 201,
-    "success": true,
-    "message": "User created successfully",
-    "data": {
-        "username": "rohit",
-        "avatar": "some default image link",
-        "email": "rohit@gmail.com",
-        "fullName": "rohit sharma",
-        "role": "user",
-        "isVerifiedAdmin": false,
-        "_id": "68347b01ddb1bd6cab30a3c7",
-        "createdAt": "2025-05-26T14:30:25.329Z",
-        "updatedAt": "2025-05-26T14:30:25.329Z",
-        "__v": 0
-    }
-}
-
-// failure
-{
-    "statusCode": 400,
-    "success": false,
-    "message": "validation failed",
-    "data": {
-        "_errors": [],
-        "username": {
-            "_errors": [
-                "username must at least contain 4 characters"
-            ]
-        }
-    }
+  "username": "surajhdfkjd",
+  "password": "232323dfsdDS$f0",
+  "email": "rohit1@gmail.com",
+  "fullName": "rohit sharma"
 }
 ```
 
-### app.post("/login", login)
+**Success Response: `201 Created`**
 
-```js
-
-// json data
-
+```json
 {
-    "username" : "rohit",
-    "password" : "232323dfsdDS$f0",
-    "email" : "rohit@gmail.com",
+  "statusCode": 201,
+  "success": true,
+  "message": "User created successfully",
+  "data": {
+    "username": "rohit",
+    "avatar": "some default image link",
+    "email": "rohit@gmail.com",
+    "fullName": "rohit sharma",
+    "role": "user",
+    "isVerifiedAdmin": false,
+    "_id": "68347b01ddb1bd6cab30a3c7",
+    "createdAt": "...",
+    "updatedAt": "...",
+    "__v": 0
+  }
 }
+```
 
+**Failure Response: `400 Bad Request`**
 
-
-// success 
-
+```json
 {
-    "statusCode": 200,
-    "success": true,
-    "message": "User login successfully",
-    "data": {
-        "_id": "68347b01ddb1bd6cab30a3c7",
-        "username": "rohit",
-        "avatar": "some default image link",
-        "email": "rohit@gmail.com",
-        "fullName": "rohit sharma",
-        "role": "user",
-        "isVerifiedAdmin": false,
-        "createdAt": "2025-05-26T14:30:25.329Z",
-        "updatedAt": "2025-05-26T14:35:00.665Z",
-        "__v": 0
+  "statusCode": 400,
+  "success": false,
+  "message": "validation failed",
+  "data": {
+    "username": {
+      "_errors": ["username must at least contain 4 characters"]
     }
-}
-
-// failure 
-
-{
-    "statusCode": 401,
-    "name": "Error",
-    "message": "Incorrect Password",
-    "data": [],
-    "success": false,
-    "errors": []
+  }
 }
 ```
 
-### app.post("/logout", authUser, logout)
+---
 
-```js
-// json data 
+### 🔓 Login User
 
-no data need to pass, backend will handle logout based on the cookie passed by the browser.
+`POST /login`
 
+**Request Body:**
 
-// success 
-
+```json
 {
-    "statusCode": 200,
-    "success": true,
-    "message": "Logout successfull",
-    "data": []
+  "username": "rohit",
+  "password": "232323dfsdDS$f0",
+  "email": "rohit@gmail.com"
 }
-
-// failure
-
-{
-    "statusCode": 404,
-    "name": "Error",
-    "message": "Access Token not found , Please login",
-    "data": [],
-    "success": false,
-    "errors": []
-}
-
 ```
 
-app.post("/changePassword", authUser, changePassword);
+**Success Response: `200 OK`**
 
-## FREELANER
-
-### app.post("/post", createPost)
-
-```js
-// data
-
+```json
 {
-  "title": "this is the title of the post",
-  "description": "Need a frontend developer to create a sleek, responsive portfolio using React and TailwindCSS.",
-  "about": "The project involves designing and implementing a modern portfolio website for a creative agency. You'll work closely with our designer, and all assets (images, copy, and wireframes) will be provided.",
+  "statusCode": 200,
+  "success": true,
+  "message": "User login successfully",
+  "data": {
+    "_id": "...",
+    "username": "rohit"
+  }
+}
+```
+
+**Failure Response: `401 Unauthorized`**
+
+```json
+{
+  "statusCode": 401,
+  "success": false,
+  "message": "Incorrect Password"
+}
+```
+
+---
+
+### 🚪 Logout User
+
+`POST /logout`  
+**Protected Route (cookie-based authentication)**
+
+**Success Response:**
+
+```json
+{
+  "statusCode": 200,
+  "success": true,
+  "message": "Logout successfull"
+}
+```
+
+**Failure Response:**
+
+```json
+{
+  "statusCode": 404,
+  "message": "Access Token not found , Please login",
+  "success": false
+}
+```
+
+---
+
+### 🔑 Change Password
+
+`POST /changePassword`  
+**Protected Route**
+
+---
+
+## 🧑‍💻 Freelancer Routes
+
+### 📄 Create Post
+
+`POST /post`
+
+**Request Body:**
+
+```json
+{
+  "title": "Portfolio Website",
+  "description": "Need a frontend developer...",
+  "about": "The project involves designing...",
   "type": "Frontend",
   "deadline": "2025-07-15T00:00:00.000Z",
-  "keywords": ["React", "TailwindCSS", "Responsive Design", "Frontend"],
+  "keywords": ["React", "TailwindCSS"],
   "images": [
     "https://example.com/design-preview1.png",
     "https://example.com/design-preview2.png"
   ]
 }
-
-
-
-// success
-{
-    "statusCode": 201,
-    "success": true,
-    "message": "Post created successfully",
-    "data": {
-        "title": "hgfhggfjhgkjhjkjh Website",
-        "description": "Need a frontend developer to create a sleek, responsive portfolio using React and TailwindCSS.",
-        "about": "The project involves designing and implementing a modern portfolio website for a creative agency. You'll work closely with our designer, and all assets (images, copy, and wireframes) will be provided.",
-        "type": "Frontend",
-        "deadline": "2025-07-15T00:00:00.000Z",
-        "registeredNumber": 0,
-        "keywords": [
-            "React",
-            "TailwindCSS",
-            "Responsive Design",
-            "Frontend"
-        ],
-        "images": [
-            "https://example.com/design-preview1.png",
-            "https://example.com/design-preview2.png"
-        ],
-        "_id": "68347ccb6f4233ac1ac54c60",
-        "createdAt": "2025-05-26T14:38:03.424Z",
-        "updatedAt": "2025-05-26T14:38:03.424Z",
-        "__v": 0
-    }
-}
-
-// failure : 
-
-{
-    "statusCode": 400,
-    "success": false,
-    "message": "validation failed",
-    "data": {
-        "_errors": [],
-        "title": {
-            "_errors": [
-                "Title cannot be empty"
-            ]
-        }
-    }
-}
-
 ```
 
-### app.get("/post/:id", getOnePost)
+**Success Response: `201 Created`**
 
-```js
-
-pass the id : {{baseUrl}}/post/:id
-
-// success : 
-
+```json
 {
-    "statusCode": 200,
-    "success": true,
-    "message": "data fetched successfully",
-    "data": {
-        "_id": "68346ddb126cdf6ae9e105dc",
-        "title": "2Build a Responsive Portfolio Website",
-        "description": "Need a frontend developer to create a sleek, responsive portfolio using React and TailwindCSS.",
-        "about": "The project involves designing and implementing a modern portfolio website for a creative agency. You'll work closely with our designer, and all assets (images, copy, and wireframes) will be provided.",
-        "type": "Frontend",
-        "deadline": "2025-07-15T00:00:00.000Z",
-        "registeredNumber": 0,
-        "keywords": [
-            "React",
-            "TailwindCSS",
-            "Responsive Design",
-            "Frontend"
-        ],
-        "images": [
-            "https://example.com/design-preview1.png",
-            "https://example.com/design-preview2.png"
-        ],
-        "createdAt": "2025-05-26T13:34:19.067Z",
-        "updatedAt": "2025-05-26T13:34:19.067Z",
-        "__v": 0
-    }
-}
-
-// failure 
-
-{
-    "statusCode": 400,
-    "success": false,
-    "message": "Post not found",
-    "data": []
-}
-
-```
-
-### app.get("/all-post", allPost)
-
-```js
-// failure 
-
-{
-    "statusCode": 200,
-    "success": true,
-    "message": "No Post found",
-}
-
-// success 
-{
-    "statusCode": 200,
-    "success": true,
-    "message": "data fetched successfully",
-    "data": [
-        {
-            "_id": "683468d3d9254abe5c905a9e",
-            "title": "Build a Responsive Portfolio Website",
-            "description": "Need a frontend developer to create a sleek, responsive portfolio using React and TailwindCSS.",
-            "about": "The project involves designing and implementing a modern portfolio website for a creative agency. You'll work closely with our designer, and all assets (images, copy, and wireframes) will be provided.",
-            "type": "Frontend",
-            "deadline": "2025-07-15T00:00:00.000Z",
-            "registeredNumber": 0,
-            "keywords": [
-                "React",
-                "TailwindCSS",
-                "Responsive Design",
-                "Frontend"
-            ],
-            "images": [
-                "https://example.com/design-preview1.png",
-                "https://example.com/design-preview2.png"
-            ],
-            "createdAt": "2025-05-26T13:12:51.797Z",
-            "updatedAt": "2025-05-26T13:12:51.797Z",
-            "__v": 0
-        },
-        {
-            "_id": "68346ddb126cdf6ae9e105dc",
-            "title": "2Build a Responsive Portfolio Website",
-            "description": "Need a frontend developer to create a sleek, responsive portfolio using React and TailwindCSS.",
-            "about": "The project involves designing and implementing a modern portfolio website for a creative agency. You'll work closely with our designer, and all assets (images, copy, and wireframes) will be provided.",
-            "type": "Frontend",
-            "deadline": "2025-07-15T00:00:00.000Z",
-            "registeredNumber": 0,
-            "keywords": [
-                "React",
-                "TailwindCSS",
-                "Responsive Design",
-                "Frontend"
-            ],
-            "images": [
-                "https://example.com/design-preview1.png",
-                "https://example.com/design-preview2.png"
-            ],
-            "createdAt": "2025-05-26T13:34:19.067Z",
-            "updatedAt": "2025-05-26T13:34:19.067Z",
-            "__v": 0
-        },
-        {
-            "_id": "68346de1126cdf6ae9e105de",
-            "title": "3Build a Responsive Portfolio Website",
-            "description": "Need a frontend developer to create a sleek, responsive portfolio using React and TailwindCSS.",
-            "about": "The project involves designing and implementing a modern portfolio website for a creative agency. You'll work closely with our designer, and all assets (images, copy, and wireframes) will be provided.",
-            "type": "Frontend",
-            "deadline": "2025-07-15T00:00:00.000Z",
-            "registeredNumber": 0,
-            "keywords": [
-                "React",
-                "TailwindCSS",
-                "Responsive Design",
-                "Frontend"
-            ],
-            "images": [
-                "https://example.com/design-preview1.png",
-                "https://example.com/design-preview2.png"
-            ],
-            "createdAt": "2025-05-26T13:34:25.251Z",
-            "updatedAt": "2025-05-26T13:34:25.251Z",
-            "__v": 0
-        }
-    ]
+  "statusCode": 201,
+  "success": true,
+  "message": "Post created successfully",
+  "data": {
+    "_id": "...",
+    "title": "Portfolio Website"
+  }
 }
 ```
 
-app.delete("/post/:id", deletePost)
+**Failure Response:**
 
-```js
-// pass the id : 
-
-
-// success
-
+```json
 {
-    "success": true,
-    "message": "Freelance post deleted successfully",
-    "data": {
-        "_id": "683468d3d9254abe5c905a9e",
-        "title": "Build a Responsive Portfolio Website",
-        "description": "Need a frontend developer to create a sleek, responsive portfolio using React and TailwindCSS.",
-        "about": "The project involves designing and implementing a modern portfolio website for a creative agency. You'll work closely with our designer, and all assets (images, copy, and wireframes) will be provided.",
-        "type": "Frontend",
-        "deadline": "2025-07-15T00:00:00.000Z",
-        "registeredNumber": 0,
-        "keywords": [
-            "React",
-            "TailwindCSS",
-            "Responsive Design",
-            "Frontend"
-        ],
-        "images": [
-            "https://example.com/design-preview1.png",
-            "https://example.com/design-preview2.png"
-        ],
-        "createdAt": "2025-05-26T13:12:51.797Z",
-        "updatedAt": "2025-05-26T13:12:51.797Z",
-        "__v": 0
+  "statusCode": 400,
+  "success": false,
+  "message": "validation failed",
+  "data": {
+    "title": {
+      "_errors": ["Title cannot be empty"]
     }
+  }
 }
-
-// failure in case post does not exists :  
-
-{
-    "success": false,
-    "message": "Freelance post not found"
-}
-
 ```
+
+---
+
+### 📄 Get Post by ID
+
+`GET /post/:id`
+
+**Success Response:**
+
+```json
+{
+  "statusCode": 200,
+  "success": true,
+  "message": "data fetched successfully",
+  "data": {
+    "_id": "...",
+    "title": "..."
+  }
+}
+```
+
+**Failure Response:**
+
+```json
+{
+  "statusCode": 400,
+  "success": false,
+  "message": "Post not found"
+}
+```
+
+---
+
+### 📄 Get All Posts
+
+`GET /all-post`
+
+**Success Response:**
+
+```json
+{
+  "statusCode": 200,
+  "success": true,
+  "message": "data fetched successfully",
+  "data": [
+    { "_id": "...", "title": "..." }
+  ]
+}
+```
+
+**Empty Response:**
+
+```json
+{
+  "statusCode": 200,
+  "success": true,
+  "message": "No Post found"
+}
+```
+
+---
+
+### ❌ Delete Post
+
+`DELETE /post/:id`
+
+**Success Response:**
+
+```json
+{
+  "success": true,
+  "message": "Freelance post deleted successfully",
+  "data": {
+    "_id": "...",
+    "title": "..."
+  }
+}
+```
+
+**Failure Response:**
+
+```json
+{
+  "success": false,
+  "message": "Freelance post not found"
+}
+```
+
+---
+
+## 🛡️ Authentication Notes
+
+- Use **HTTP-only cookies** for session management.
+- Routes like `/logout`, `/changePassword`, `/post`, and `/delete/:id` require authentication.
+- Proper `authUser` middleware is expected to be in place on the backend.
+
+---
+
+## 🧪 Test with Postman
+
+Use the provided request/response structures to test endpoints. Make sure cookies are enabled to test protected routes properly.
+
+---
